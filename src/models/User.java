@@ -12,8 +12,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import structures.linkedlist.LinkedList;
-import structures.tree.Node;
-import structures.tree.Tree;
 
 /**
  *
@@ -199,7 +197,7 @@ public class User {
         return topScore;
     }
 
-    public void setTopScore(int topScore) {
+    private void setTopScore(int topScore) {
         this.topScore = topScore;
     }
 

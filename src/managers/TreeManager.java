@@ -16,105 +16,122 @@ import structures.tree.Tree;
  */
 public class TreeManager {
 
-    Scanner read = new Scanner(System.in);
-    LinkedList<Tree> forest = new LinkedList();
-    int sons = -1, height = 0;
-    LinkedList<String> levels = new LinkedList<>();
+    private LinkedList<Tree> forest;
+    private Tree selectedTree;
 
-    public void createTree(Tree tree) {
-        if (tree != null) {
-            String string;
-            int op = 1, level = 0, position = 0;
-            do {
-                System.out.println("Digite info del nodo: (contenido Enter nivel Enter posicion Enter)");
-                string = read.next();
-                level = read.nextInt();
-                position = read.nextInt();
-                tree.add(string, level, position);
-                System.out.println("Desea ingresar mas nodos 1-Si, 0-No");
-                op = read.nextInt();
-            } while (op == 1);
-            //height(tree.getRoot(), 0);
-            //tree.setHeight(height);
-        }
-    } //Console method pls don't use it...
+    private Scanner read;
+    private int sons, height;
+    private LinkedList<String> levels;
 
-    public void showTree(Tree tree) {
-        if (tree != null) {
-            Node root = tree.getRoot();
-            LinkedList<String> travel = new LinkedList<>();
-            System.out.println("Mostrar Arbol por 1.pre-orden - 2.in-orden 3.post-orden - 4.nivel-orden - 5.intento grafico");
-            System.out.println("OPCION: ");
-            int op = read.nextInt();
-            System.out.println("");
-            switch (op) {
-                case 1:
-                    preOrder(root, travel);
-                    break;
-                case 2:
-                    inOrder(root, travel);
-                    break;
-                case 3:
-                    postOrder(root, travel);
-                    break;
-                case 4:
-                    levelOrder(root, travel);
-                    break;
-                case 5:
-                    //int num = read.nextInt(); //fix, cousins from uncles...
-                    //Node p = findNode(num);
-                    graphicTree(tree, root);
-                    break;
-                default:
-                    break;
-            }
-            for (int i = 0; i < travel.size(); i++) {
-                String string = travel.get(i);
-                System.out.print(string + "-");
-            }
-            //for (String string : travel) {
-            //    System.out.print(string + "-");
-            //}
-        }
-    } //Console method pls don't use it...
+    private boolean loaded;
 
-    public void justShow(Tree tree) {
-        System.out.println("");
-        if (tree != null) {
-            graphicTree(tree, tree.getRoot());
-        }
-        System.out.println("");
-    } //Console method pls don't use it...
+    public TreeManager() {
+        forest = new LinkedList();
 
-    public void graphicTree(Tree tree, Node p) { //fix, missing Grandchildren from a missing son... I really need to fix this?...
-        if (tree.getRoot() != null) {            //fix, add spaces for a better view...
-            int hght = tree.getHeight();
-            int level = p.getLevel() + 1;
-            //System.out.println(level + "<" + height);
-            System.out.println(p.getString() + "-");
-            while (level <= hght) {
-                clean();
-                levelNodes(tree.getRoot(), level);
-                for (int i = 0; i < levels.size(); i++) {
-                    String node = levels.get(i);
-                    System.out.print(node + "-");
-                }
-                //for (String node : levels) {
-                //    System.out.print(node + "-");
-                //}
-                System.out.println("");
-                level++;
+        read = new Scanner(System.in);
+        sons = -1;
+        height = 0;
+        levels = new LinkedList<>();
+
+        loaded = false;
+    }
+
+    //IMPORTANT METHODS
+    public void saveAll() {
+        if (forest != null) {
+            for (int i = 0; i < forest.size(); i++) {
+                forest.get(i).save();
             }
         }
-    } //Console method pls don't use it...
+    }
 
+    public void loadAll() {
+        if (!loaded) {
+            forest.addAll(Tree.loadAll());
+            loaded = true;
+        }
+    }
+
+    public Tree get(String name) {
+        for (int i = 0; i < forest.size(); i++) {
+            Tree tree = forest.get(i);
+            if (tree.getName().equals(name)) {
+                return tree;
+            }
+        }
+        return null;
+    }
+
+    public void createTree(String name) {
+        if (name != null) {
+            forest.add(new Tree(name));
+        } else {
+            forest.add(new Tree());
+        }
+    }
+
+    public void addToTree(String name, String string, int level, int position) {
+        get(name).add(string, level, position);
+    }
+
+    public void deleteToTree(String name, String string) {
+        get(name).deleteNode(string);
+    }
+
+    public void moveInTree(String name, boolean direction) {
+        get(name).run(direction);
+    }
+
+    public String getInTree(String name) {
+        return get(name).get();
+    }
+
+    public void selectTree(String name) {
+        selectedTree = get(name);
+    }
+
+    public void addToSelectedTree(String string, int level, int position) {
+        if (selectedTree != null) {
+            selectedTree.add(string, level, position);
+        }
+    }
+
+    public void deleteToSelectedTree(String string) {
+        if (selectedTree != null) {
+            selectedTree.deleteNode(string);
+        }
+    }
+
+    public void moveInSelectedTree(boolean direction) {
+        if (selectedTree != null) {
+            selectedTree.run(direction);
+        }
+    }
+
+    public String getInSelectedTree() {
+        return selectedTree.get();
+    }
+
+    //NOT FINISHED... TO BE CONTINUE...
+    public void updateTree(String oldName, String newName) {
+        Tree tree;
+        if ((tree = get(oldName)) != null && get(newName) == null) {
+            tree.setName(newName);
+        }
+    }
+
+    public void deleteTree(String name) {
+        forest.delete(get(name));
+    }
+
+    //JUST-IN-CASE METHODS
     public void preOrder(Node p, LinkedList<String> travel) {
         if (p != null) {
             travel.add(p.getString());
             preOrder(p.getLeft(), travel);
             preOrder(p.getRight(), travel);
         }
-    } 
+    }
 
     public void inOrder(Node p, LinkedList<String> travel) {
         if (p != null) {
@@ -213,23 +230,93 @@ public class TreeManager {
         levels = new LinkedList<>();
     }
 
-    public Tree get(String name) {
-        for (int i = 0; i < forest.size(); i++) {
-            Tree tree = forest.get(i);
-            if (tree.getName().equals(name)) {
-                return tree;
-            }
+    //CONSOLE METHODS (don't use it)
+    public void createTree(Tree tree) {
+        if (tree != null) {
+            String string;
+            int op = 1, level = 0, position = 0;
+            do {
+                System.out.println("Digite info del nodo: (contenido Enter nivel Enter posicion Enter)");
+                string = read.next();
+                level = read.nextInt();
+                position = read.nextInt();
+                tree.add(string, level, position);
+                System.out.println("Desea ingresar mas nodos 1-Si, 0-No");
+                op = read.nextInt();
+            } while (op == 1);
+            //height(tree.getRoot(), 0);
+            //tree.setHeight(height);
         }
-        return null;
-    }
+    } //Console method pls don't use it...
 
-    public void saveAll() {
-        if (forest != null) {
-            for (int i = 0; i < forest.size(); i++) {
-                forest.get(i).save();
+    public void showTree(Tree tree) {
+        if (tree != null) {
+            Node root = tree.getRoot();
+            LinkedList<String> travel = new LinkedList<>();
+            System.out.println("Mostrar Arbol por 1.pre-orden - 2.in-orden 3.post-orden - 4.nivel-orden - 5.intento grafico");
+            System.out.println("OPCION: ");
+            int op = read.nextInt();
+            System.out.println("");
+            switch (op) {
+                case 1:
+                    preOrder(root, travel);
+                    break;
+                case 2:
+                    inOrder(root, travel);
+                    break;
+                case 3:
+                    postOrder(root, travel);
+                    break;
+                case 4:
+                    levelOrder(root, travel);
+                    break;
+                case 5:
+                    //int num = read.nextInt(); //fix, cousins from uncles...
+                    //Node p = findNode(num);
+                    graphicTree(tree, root);
+                    break;
+                default:
+                    break;
+            }
+            for (int i = 0; i < travel.size(); i++) {
+                String string = travel.get(i);
+                System.out.print(string + "-");
+            }
+            //for (String string : travel) {
+            //    System.out.print(string + "-");
+            //}
+        }
+    } //Console method pls don't use it...
+
+    public void justShow(Tree tree) {
+        System.out.println("");
+        if (tree != null) {
+            graphicTree(tree, tree.getRoot());
+        }
+        System.out.println("");
+    } //Console method pls don't use it...
+
+    public void graphicTree(Tree tree, Node p) { //fix, missing Grandchildren from a missing son... I really need to fix this?...
+        if (tree.getRoot() != null) {            //fix, add spaces for a better view...
+            int hght = tree.getHeight();
+            int level = p.getLevel() + 1;
+            //System.out.println(level + "<" + height);
+            System.out.println(p.getString() + "-");
+            while (level <= hght) {
+                clean();
+                levelNodes(tree.getRoot(), level);
+                for (int i = 0; i < levels.size(); i++) {
+                    String node = levels.get(i);
+                    System.out.print(node + "-");
+                }
+                //for (String node : levels) {
+                //    System.out.print(node + "-");
+                //}
+                System.out.println("");
+                level++;
             }
         }
-    }
+    } //Console method pls don't use it...
 
     /**
      * @param args the command line arguments
@@ -380,6 +467,4 @@ public class TreeManager {
             //System.out.println("\n\n");
         } while (op != 0);
     }*/
-
 }
-
