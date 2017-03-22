@@ -86,8 +86,9 @@ public class TreeManager {
         return get(name).get();
     }
 
-    public void selectTree(String name) {
+    public boolean selectTree(String name) {
         selectedTree = get(name);
+        return selectedTree != null;
     }
 
     public void addToSelectedTree(String string, int level, int position) {
@@ -112,7 +113,6 @@ public class TreeManager {
         return selectedTree.get();
     }
 
-    //NOT FINISHED... TO BE CONTINUE...
     public void updateTree(String oldName, String newName) {
         Tree tree;
         if ((tree = get(oldName)) != null && get(newName) == null) {

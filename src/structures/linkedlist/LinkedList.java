@@ -96,6 +96,63 @@ public class LinkedList<T> {
         }
     }
 
+    public boolean add(int index, T info) {
+        if (index > 0 && index < size && info != null) {
+            Node<T> p = ptr;
+            Node antp = null;
+            if (ptr != null) {
+                int cont = 0;
+                while (cont < index) {
+                    antp = p;
+                    p = p.getLink();
+                    cont++;
+                }
+                Node<T> q = new Node(info);
+                if (antp == null) {
+                    ptr = q;
+                    q.setLink(p);
+                } else if (p == last) {
+                    p.setLink(q);
+                    last = q;
+                } else {
+                    antp.setLink(q);
+                    q.setLink(p);
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean set(int index, T info) {
+        if (index > 0 && index < size && info != null) {
+            Node<T> p = ptr;
+            Node antp = null;
+            if (ptr != null) {
+                int cont = 0;
+                while (cont < index) {
+                    antp = p;
+                    p = p.getLink();
+                    cont++;
+                }
+                Node<T> q = new Node(info);
+                if (antp == null) {
+                    ptr = q;
+                    q.setLink(p.getLink());
+                } else {
+                    antp.setLink(q);
+                    q.setLink(p.getLink());
+                }
+                if (p == last) {
+                    last = q;
+                }
+                p.setLink(null);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void changePosition(int positionA, int positionB) {
         if (size > 1 && 0 < positionA && positionA < positionB && positionB < size) {
             Node<T> a = getNode(positionA), b = getNode(positionB);
@@ -204,6 +261,18 @@ public class LinkedList<T> {
             p = p.getLink();
         }
         return false;
+    }
+
+    public int indexOf(T info) {
+        Node<T> p = ptr;
+        int index = -1;
+        while (p != null) {
+            index++;
+            if (p.getInfo() == info) {
+                return index;
+            }
+        }
+        return -1;
     }
 
     public void addAll(LinkedList<T> list) {

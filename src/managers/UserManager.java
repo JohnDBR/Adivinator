@@ -38,6 +38,33 @@ public class UserManager {
             users.addAll(User.loadAll());
             loaded = true;
         }
+        sortUsers(0, users.size() - 1);
+    }
+
+    private void sortUsers(int left, int right) { //Need testing...
+        User pivot = users.get(left); //we took the first element as pivot
+        int i = left;  //i searches from left to right
+        int j = right; //j searches from right to left
+
+        while (i < j) {            //while the searches do not cross
+            while (users.get(i).getTopScore() <= pivot.getTopScore() && i < j) {
+                i++; //search the element greater than pivot
+            }
+            while (users.get(j).getTopScore() > pivot.getTopScore()) {
+                j--; //search the element smaller than pivot
+            }
+            if (i < j) { //if they have not been crossed, it exchange
+                users.changePosition(i, j);
+            }
+        }
+        users.set(left, users.get(j)); //The pivot is putted in its place so we have
+        users.set(j, pivot); //the minors to the left and the majors to the right
+        if (left < j - 1) {
+            sortUsers(left, j - 1); // we order the left subLinkedList 
+        }
+        if (j + 1 < right) {
+            sortUsers(j + 1, right); // we order the right subLinkedList
+        }
     }
 
     public User get(String name) {
@@ -58,16 +85,18 @@ public class UserManager {
     }
 
     public void createUser(String name) {
-        if (get(name) == null) {
-            users.add(new User(name));
-        }
+        //if (get(name) == null) {
+        users.add(new User(name));
+        //}
     }
 
-    public void scoreToUser(String name, int newScore) {
+    public boolean scoreToUser(String name, int newScore) {
         try {
             get(name).updateScore(newScore);
         } catch (Exception e) {
+            return false;
         }
+        return true;
     }
 
     public void updateUser(String oldName, String newName) {
@@ -89,8 +118,9 @@ public class UserManager {
         }
     }
 
-    public void selectUser(String name) {
+    public boolean selectUser(String name) {
         selectedUser = get(name);
+        return selectedUser != null;
         //for (int i = 0; i < users.size(); i++) {
         //    User user = users.get(i);
         //    if (user.getName().equals(name)) {
@@ -128,5 +158,17 @@ public class UserManager {
         if (selectedUser != null) {
             selectedUser.save();
         }
+    }
+
+    public LinkedList<User> getTop5() {
+        sortUsers(0, users.size() - 1);
+        LinkedList<User> top5 = new LinkedList<>();
+        try {
+            for (int i = 0; i < 5; i++) {
+                top5.add(users.get(i));
+            }
+        } catch (Exception e) {
+        }
+        return top5;
     }
 }
