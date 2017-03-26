@@ -92,6 +92,14 @@ public class TreeManager {
         }
     }
 
+    public String doubtMoveInTree(String name, String answer) {
+        try {
+            return get(name).doubt(answer);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     public String getInTree(String name) {
         try {
             return get(name).get();
@@ -150,6 +158,13 @@ public class TreeManager {
             getSelectedTree().learn(question, answer);
         } catch (Exception e) {
         }
+    }
+
+    public String doubtMoveInSelectedTree(String answer) {
+        if (selectedTree != null) {
+            return getSelectedTree().doubt(answer);
+        }
+        return null;
     }
 
     public String getInSelectedTree() {

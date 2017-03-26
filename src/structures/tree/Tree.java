@@ -22,6 +22,7 @@ public class Tree implements java.io.Serializable {
     private String name;
     private Node root;
     private LinkedList<Node> stack;
+    private LinkedList<Node> doubt;
     private int sons = -1, height = 0;
 
     private final String fileRoute;
@@ -35,6 +36,7 @@ public class Tree implements java.io.Serializable {
             setId();
         }
         stack = new LinkedList<>();
+        doubt = new LinkedList<>();
         this.setRoot(null);
         this.name = "";
         ownId = id++;
@@ -46,6 +48,7 @@ public class Tree implements java.io.Serializable {
             setId();
         }
         stack = new LinkedList<>();
+        doubt = new LinkedList<>();
         this.setRoot(null);
         this.name = name;
         ownId = id;
@@ -55,6 +58,7 @@ public class Tree implements java.io.Serializable {
     public Tree(int ownId, String name) {
         fileRoute = "./database/treeStorer.txt";
         stack = new LinkedList<>();
+        doubt = new LinkedList<>();
         this.setRoot(null);
         this.name = name;
         this.ownId = ownId;
@@ -220,7 +224,7 @@ public class Tree implements java.io.Serializable {
         }
     }
 
-    public String run(boolean direction) {
+    public String run(boolean direction) { //Need to check doubt LinkedList...
         String string = "Arbol vacio";
         if (root != null) {
             Node p = null;
@@ -232,6 +236,16 @@ public class Tree implements java.io.Serializable {
                 if (p != null) {
                     string = p.getString();
                     stack.add(p);
+                } else if (!doubt.isEmpty()) {
+                    Node q = doubt.getLast();
+                    doubt.pollLast();
+                    if (stack.contains(q.getLeft())) {
+                        stack.add(q.getRight());
+                        string = q.getRight().getString();
+                    } else {
+                        stack.add(q.getLeft());
+                        string = q.getLeft().getString();
+                    }
                 } else {
                     string = "No se!";
                 }
@@ -264,6 +278,34 @@ public class Tree implements java.io.Serializable {
             height(root, 0);
             stack.clear();
         }
+    }
+
+    public String doubt(String answer) {
+        String string = "Arbol vacio";
+        if (root != null) {
+            if (stack.isEmpty()) {
+                stack.add(root);
+            }
+            Node p = stack.getLast();
+            if (p != null) {
+                doubt.add(p);
+                switch (answer) {
+                    case "Probablemente Si":
+                        string = run(true);
+                        break;
+                    case "Probablemente No":
+                        string = run(false);
+                        break;
+                    case "Irrelevante":
+                        //Should be discussed
+                        break;
+                    case "No se":
+                        //Should be discussed
+                        break;
+                }
+            }
+        }
+        return string;
     }
 
     public LinkedList<Node> biggerBranch(Node p, LinkedList<Node> list) {
@@ -559,6 +601,14 @@ public class Tree implements java.io.Serializable {
 
     public void setStack(LinkedList<Node> stack) {
         this.stack = stack;
+    }
+
+    public void setDoubt(LinkedList<Node> doubt) {
+        this.doubt = doubt;
+    }
+
+    public LinkedList<Node> getDoubt() {
+        return doubt;
     }
 
     public String getName() {
