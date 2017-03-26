@@ -11,8 +11,8 @@ package managers;
  */
 public class Master {
 
-    private TreeManager tm;
-    private UserManager um;
+    private final TreeManager tm;
+    private final UserManager um;
 
     public Master() {
         tm = new TreeManager();
@@ -20,7 +20,7 @@ public class Master {
         init();
     }
 
-    public void init() {
+    private void init() {
         tm.loadAll();
         um.loadAll();
     }

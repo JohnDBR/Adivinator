@@ -23,8 +23,6 @@ public class TreeManager {
     private int sons, height;
     private LinkedList<String> levels;
 
-    private boolean loaded;
-
     public TreeManager() {
         forest = new LinkedList();
 
@@ -32,8 +30,6 @@ public class TreeManager {
         sons = -1;
         height = 0;
         levels = new LinkedList<>();
-
-        loaded = false;
     }
 
     //IMPORTANT METHODS
@@ -46,17 +42,14 @@ public class TreeManager {
     }
 
     public void loadAll() {
-        if (!loaded) {
-            forest.addAll(Tree.loadAll());
-            loaded = true;
-        }
+        forest.clear();
+        forest.addAll(Tree.loadAll());
     }
 
     public Tree get(String name) {
         for (int i = 0; i < forest.size(); i++) {
-            Tree tree = forest.get(i);
-            if (tree.getName().equals(name)) {
-                return tree;
+            if (forest.get(i).getName().equals(name)) {
+                return forest.get(i);
             }
         }
         return null;
@@ -71,19 +64,47 @@ public class TreeManager {
     }
 
     public void addToTree(String name, String string, int level, int position) {
-        get(name).add(string, level, position);
+        try {
+            get(name).add(string, level, position);
+        } catch (Exception e) {
+        }
     }
 
     public void deleteToTree(String name, String string) {
-        get(name).deleteNode(string);
+        try {
+            get(name).deleteNode(string);
+        } catch (Exception e) {
+        }
     }
 
-    public void moveInTree(String name, boolean direction) {
-        get(name).run(direction);
+    public String moveInTree(String name, boolean direction) {
+        try {
+            return get(name).run(direction);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void learnInTree(String name, String question, String answer) {
+        try {
+            get(name).learn(question, answer);
+        } catch (Exception e) {
+        }
     }
 
     public String getInTree(String name) {
-        return get(name).get();
+        try {
+            return get(name).get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void saveTree(String name) {
+        try {
+            get(name).save();
+        } catch (Exception e) {
+        }
     }
 
     public boolean selectTree(String name) {
@@ -91,26 +112,57 @@ public class TreeManager {
         return selectedTree != null;
     }
 
+    public boolean selectTree(int position) {
+        selectedTree = forest.get(position);
+        return selectedTree != null;
+    }
+
+    private Tree getSelectedTree() {
+        for (int i = 0; i < forest.size(); i++) {
+            if (forest.get(i).equals(selectedTree)) {
+                return forest.get(i);
+            }
+        }
+        return null;
+    }
+
     public void addToSelectedTree(String string, int level, int position) {
         if (selectedTree != null) {
-            selectedTree.add(string, level, position);
+            getSelectedTree().add(string, level, position);
         }
     }
 
     public void deleteToSelectedTree(String string) {
         if (selectedTree != null) {
-            selectedTree.deleteNode(string);
+            getSelectedTree().deleteNode(string);
         }
     }
 
-    public void moveInSelectedTree(boolean direction) {
+    public String moveInSelectedTree(boolean direction) {
         if (selectedTree != null) {
-            selectedTree.run(direction);
+            return getSelectedTree().run(direction);
+        }
+        return null;
+    }
+
+    public void learnInSelectedTree(String question, String answer) {
+        try {
+            getSelectedTree().learn(question, answer);
+        } catch (Exception e) {
         }
     }
 
     public String getInSelectedTree() {
-        return selectedTree.get();
+        if (selectedTree != null) {
+            return selectedTree.get();
+        }
+        return null;
+    }
+
+    public void saveInSelectedTree() {
+        if (selectedTree != null) {
+            selectedTree.save();
+        }
     }
 
     public void updateTree(String oldName, String newName) {
@@ -230,28 +282,34 @@ public class TreeManager {
         levels = new LinkedList<>();
     }
 
-    //CONSOLE METHODS (don't use it)
-    public void createTree(Tree tree) {
-        if (tree != null) {
-            String string;
-            int op = 1, level = 0, position = 0;
-            do {
-                System.out.println("Digite info del nodo: (contenido Enter nivel Enter posicion Enter)");
-                string = read.next();
-                level = read.nextInt();
-                position = read.nextInt();
-                tree.add(string, level, position);
-                System.out.println("Desea ingresar mas nodos 1-Si, 0-No");
-                op = read.nextInt();
-            } while (op == 1);
-            //height(tree.getRoot(), 0);
-            //tree.setHeight(height);
+    //CONSOLE METHODS (don't use it) these methods are only for me, if you understand it you can use it to help you
+    public void createTree() {
+        Tree tree = new Tree();
+        String string;
+        int op = 1, level = 0, position = 0;
+        do {
+            System.out.println("Digite info del nodo: (contenido Enter nivel Enter posicion Enter)");
+            string = read.next();
+            level = read.nextInt();
+            position = read.nextInt();
+            tree.add(string, level, position);
+            System.out.println("Desea ingresar mas nodos 1-Si, 0-No");
+            op = read.nextInt();
+        } while (op == 1);
+        //height(tree.getRoot(), 0);
+        //tree.setHeight(height);
+
+        if (tree.getRoot() != null) {
+            forest.add(tree);
+            selectedTree = tree;
+            justShow();
         }
+
     } //Console method pls don't use it...
 
-    public void showTree(Tree tree) {
-        if (tree != null) {
-            Node root = tree.getRoot();
+    public void showTree() {
+        if (selectedTree != null) {
+            Node root = selectedTree.getRoot();
             LinkedList<String> travel = new LinkedList<>();
             System.out.println("Mostrar Arbol por 1.pre-orden - 2.in-orden 3.post-orden - 4.nivel-orden - 5.intento grafico");
             System.out.println("OPCION: ");
@@ -273,7 +331,7 @@ public class TreeManager {
                 case 5:
                     //int num = read.nextInt(); //fix, cousins from uncles...
                     //Node p = findNode(num);
-                    graphicTree(tree, root);
+                    graphicTree(selectedTree, root);
                     break;
                 default:
                     break;
@@ -288,10 +346,10 @@ public class TreeManager {
         }
     } //Console method pls don't use it...
 
-    public void justShow(Tree tree) {
+    public void justShow() {
         System.out.println("");
-        if (tree != null) {
-            graphicTree(tree, tree.getRoot());
+        if (selectedTree != null) {
+            graphicTree(selectedTree, selectedTree.getRoot());
         }
         System.out.println("");
     } //Console method pls don't use it...

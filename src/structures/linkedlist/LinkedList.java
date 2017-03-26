@@ -276,10 +276,12 @@ public class LinkedList<T> {
     }
 
     public void addAll(LinkedList<T> list) {
-        Node<T> pList = list.getNode(0), p;
-        for (int i = 0; i < list.size; i++) {
-            add(pList.getInfo());
-            pList = pList.getLink();
+        if (list != null) {
+            Node<T> pList = list.getNode(0), p;
+            for (int i = 0; i < list.size; i++) {
+                add(pList.getInfo());
+                pList = pList.getLink();
+            }
         }
     }
 

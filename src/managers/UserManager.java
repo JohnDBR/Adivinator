@@ -17,10 +17,7 @@ public class UserManager {
     private LinkedList<User> users;
     private User selectedUser;
 
-    private boolean loaded;
-
     public UserManager() {
-        loaded = false;
         users = new LinkedList<>();
         selectedUser = null;
     }
@@ -34,10 +31,8 @@ public class UserManager {
     }
 
     public void loadAll() {
-        if (!loaded) {
-            users.addAll(User.loadAll());
-            loaded = true;
-        }
+        users.clear();
+        users.addAll(User.loadAll());
         sortUsers(0, users.size() - 1);
     }
 
@@ -69,9 +64,8 @@ public class UserManager {
 
     public User get(String name) {
         for (int i = 0; i < users.size(); i++) {
-            User user = users.get(i);
-            if (user.getName().equals(name)) {
-                return user;
+            if (users.get(i).getName().equals(name)) {
+                return users.get(i);
             }
         }
         return null;
@@ -130,15 +124,24 @@ public class UserManager {
         //}
     }
 
+    private User getSelectedUser() {
+        for (int i = 0; i < users.size(); i++) {
+            if (users.get(i).equals(selectedUser)) {
+                return users.get(i);
+            }
+        }
+        return null;
+    }
+
     public void scoreToSelectedUser(int newScore) {
         if (selectedUser != null) {
-            selectedUser.updateScore(newScore);
+            getSelectedUser().updateScore(newScore);
         }
     }
 
     public void updateSelectedUser(String newName) {
         if (get(newName) == null && selectedUser != null) {
-            selectedUser.setName(newName);
+            getSelectedUser().setName(newName);
         }
     }
 

@@ -25,9 +25,9 @@ public class Tree implements java.io.Serializable {
     private int sons = -1, height = 0;
 
     private final String fileRoute;
-    private File storer;
     private final int ownId;
     private static int id = 0;
+    private static boolean idSet = false;
 
     public Tree() {
         fileRoute = "./database/treeStorer.txt";
@@ -41,7 +41,7 @@ public class Tree implements java.io.Serializable {
     }
 
     public Tree(String name) {
-        fileRoute = "./treeStorer.txt";
+        fileRoute = "./database/treeStorer.txt";
         if (checkFile()) {
             setId();
         }
@@ -50,6 +50,14 @@ public class Tree implements java.io.Serializable {
         this.name = name;
         ownId = id;
         id++;
+    }
+
+    public Tree(int ownId, String name) {
+        fileRoute = "./database/treeStorer.txt";
+        stack = new LinkedList<>();
+        this.setRoot(null);
+        this.name = name;
+        this.ownId = ownId;
     }
 
     public void add(String string, int level, int position) {
@@ -298,7 +306,7 @@ public class Tree implements java.io.Serializable {
 
     //BUFFERING METHODS
     private boolean checkFile() {
-        storer = new File(fileRoute);
+        File storer = new File(fileRoute);
         if (!storer.exists()) {
             try {
                 storer.createNewFile();
@@ -312,28 +320,34 @@ public class Tree implements java.io.Serializable {
     }
 
     private void setId() {
-        try {
-            FileReader fr = new FileReader(storer);
-            BufferedReader br = new BufferedReader(fr);
+        if (!idSet) {
+            try {
+                File storer = new File(fileRoute);
+                FileReader fr = new FileReader(storer);
+                BufferedReader br = new BufferedReader(fr);
 
-            int cont = 0;
-            while (br.readLine() != null) {
-                cont++;
+                int cont = 0;
+                while (br.readLine() != null) {
+                    cont++;
+                }
+                id = cont;
+                //System.out.println(id);
+
+                idSet = true;
+
+                br.close();
+                fr.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-            id = cont;
-            //System.out.println(id);
-
-            br.close();
-            fr.close();
-        } catch (Exception ex) {
-            ex.printStackTrace();
         }
     }
 
     public int save() {
         try {
             String c = "|";
-            File fileModification = new File("./modification.txt");
+            File storer = new File(fileRoute);
+            File fileModification = new File("./database/modification.txt");
             fileModification.createNewFile();
 
             FileReader fr = new FileReader(storer);
@@ -345,8 +359,17 @@ public class Tree implements java.io.Serializable {
             String line, sTree = this.getClass().getSimpleName() + c + ownId + c + name + c + allNodes(root);
             boolean insert = false;
             while ((line = br.readLine()) != null) {
-                String[] field = line.split("\\|");
-                if (field[1].equals(Integer.toString(ownId))) {
+                //String[] field = line.split("\\|");
+                //if (field[1].equals(Integer.toString(ownId))) {
+                //    pw.println(sTree);
+                //    insert = true;
+                //} else {
+                //    pw.println(line);
+                //}
+
+                LinkedList<String> field = new LinkedList<>(); //Add a try-catch on LinkedList class
+                field.addAll(split(line, "|"));
+                if (field.get(1).equals(Integer.toString(ownId))) {
                     pw.println(sTree);
                     insert = true;
                 } else {
@@ -367,9 +390,9 @@ public class Tree implements java.io.Serializable {
             boolean rename;
             do {
                 delete = storer.delete();
-                //rename = fileModification.renameTo(storer);
-                rename = fileModification.renameTo(new File(fileRoute));
-                fileModification.delete();
+                rename = fileModification.renameTo(storer);
+                //rename = fileModification.renameTo(new File(fileRoute));
+                //fileModification.delete();
                 //storer = fileModification;
                 System.out.println(delete + " " + rename);
             } while (!(delete && rename));
@@ -390,7 +413,7 @@ public class Tree implements java.io.Serializable {
 
     public static Tree load(int id) {
         try {
-            File f = new File("./treeStorer.txt");
+            File f = new File("./database/treeStorer.txt");
             if (f.exists()) {
 
                 FileReader fr = new FileReader(f);
@@ -399,14 +422,33 @@ public class Tree implements java.io.Serializable {
                 int sw = 0;
                 String line;
                 while ((line = br.readLine()) != null && sw == 0) {
-                    String[] field = line.split("\\|");
-                    if (field[1].equals(Integer.toString(id))) {
+                    //String[] field = line.split("\\|");
+                    //if (field[1].equals(Integer.toString(id))) {
+                    //
+                    //    Tree tree = new Tree(field[2]);
+                    //    String[] nodes = field[3].split("\\;");
+                    //    for (String node : nodes) {
+                    //        String[] attr = node.split("\\,");
+                    //        tree.add(attr[0], Integer.valueOf(attr[1]), Integer.valueOf(attr[2]));
+                    //    }
+                    //
+                    //    br.close();
+                    //    fr.close();
+                    //
+                    //    return tree;
+                    //}
 
-                        Tree tree = new Tree(field[2]);
-                        String[] nodes = field[3].split("\\;");
-                        for (String node : nodes) {
-                            String[] attr = node.split("\\,");
-                            tree.add(attr[0], Integer.valueOf(attr[1]), Integer.valueOf(attr[2]));
+                    LinkedList<String> field = new LinkedList<>(); //Add a try-catch on LinkedList class
+                    field.addAll(split(line, "|"));
+                    if (field.get(1).equals(Integer.toString(id))) {
+                        Tree tree = new Tree(Integer.valueOf(field.get(1)), field.get(2));
+                        LinkedList<String> nodes = new LinkedList<>(); //Add a try-catch on LinkedList class
+                        nodes.addAll(split(field.get(3), ";"));
+                        for (int i = 0; i < nodes.size(); i++) {
+                            String node = nodes.get(i);
+                            LinkedList<String> attr = new LinkedList<>(); //Add a try-catch on LinkedList class
+                            attr.addAll(split(node, ","));
+                            tree.add(attr.get(0), Integer.valueOf(attr.get(1)), Integer.valueOf(attr.get(2)));
                         }
 
                         br.close();
@@ -414,6 +456,7 @@ public class Tree implements java.io.Serializable {
 
                         return tree;
                     }
+
                 }
             }
         } catch (Exception ex) {
@@ -424,7 +467,7 @@ public class Tree implements java.io.Serializable {
 
     public static LinkedList<Tree> loadAll() {
         try {
-            File f = new File("./treeStorer.txt");
+            File f = new File("./database/treeStorer.txt");
             if (f.exists()) {
                 FileReader fr = new FileReader(f);
                 BufferedReader br = new BufferedReader(fr);
@@ -432,12 +475,25 @@ public class Tree implements java.io.Serializable {
                 LinkedList<Tree> forest = new LinkedList<>();
                 String line;
                 while ((line = br.readLine()) != null) {
-                    String[] field = line.split("\\|");
-                    Tree tree = new Tree(field[2]);
-                    String[] nodes = field[3].split("\\;");
-                    for (String node : nodes) {
-                        String[] attr = node.split("\\,");
-                        tree.add(attr[0], Integer.valueOf(attr[1]), Integer.valueOf(attr[2]));
+                    //String[] field = line.split("\\|");
+                    //Tree tree = new Tree(field[2]);
+                    //String[] nodes = field[3].split("\\;");
+                    //for (String node : nodes) {
+                    //    String[] attr = node.split("\\,");
+                    //    tree.add(attr[0], Integer.valueOf(attr[1]), Integer.valueOf(attr[2]));
+                    //}
+                    //forest.add(tree);
+
+                    LinkedList<String> field = new LinkedList<>(); //Add a try-catch on LinkedList class
+                    field.addAll(split(line, "|"));
+                    Tree tree = new Tree(Integer.valueOf(field.get(1)), field.get(2));
+                    LinkedList<String> nodes = new LinkedList<>(); //Add a try-catch on LinkedList class
+                    nodes.addAll(split(field.get(3), ";"));
+                    for (int i = 0; i < nodes.size(); i++) {
+                        String node = nodes.get(i);
+                        LinkedList<String> attr = new LinkedList<>(); //Add a try-catch on LinkedList class
+                        attr.addAll(split(node, ","));
+                        tree.add(attr.get(0), Integer.valueOf(attr.get(1)), Integer.valueOf(attr.get(2)));
                     }
                     forest.add(tree);
                 }
@@ -449,6 +505,25 @@ public class Tree implements java.io.Serializable {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+        return null;
+    }
+
+    private static LinkedList<String> split(String line, String s) {
+        if (line != null && s != null) {
+            int j = 0;
+            LinkedList<String> piece = new LinkedList<>();
+            for (int i = 0; i < line.length(); i++) {
+                String c = line.substring(i, i + 1);
+                if (c.equals(s)) {
+                    piece.add(line.substring(j, i));
+                    j = i + 1;
+                }
+            }
+            if (j != line.length()) {
+                piece.add(line.substring(j, line.length()));
+            }
+            return piece;
         }
         return null;
     }
@@ -493,5 +568,4 @@ public class Tree implements java.io.Serializable {
     public void setName(String name) {
         this.name = name;
     }
-
 }
