@@ -23,7 +23,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         //System.out.println("CARGANDO ARBOL! Espera hey...");
         Master m = new Master();
-        m.getTm().selectTree(2);
+        m.getTm().selectTree(6);
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         int op, r;
 
@@ -51,6 +51,7 @@ public class main {
                     break;
                 case 3:
                     r = 1;
+                    System.out.println(m.getTm().getInSelectedTree());
                     do {
                         System.out.println("1-True, 2-False)");
                         r = Integer.valueOf(read.readLine());
