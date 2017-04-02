@@ -1,4 +1,7 @@
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Scanner;
 import managers.Master;
 import structures.tree.Tree;
@@ -17,9 +20,11 @@ public class main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        //System.out.println("CARGANDO ARBOL! Espera hey...");
         Master m = new Master();
-        Scanner read = new Scanner(System.in);
+        m.getTm().selectTree(0);
+        BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         int op, r;
 
         do {
@@ -35,7 +40,7 @@ public class main {
                     + " 0. Salir"
             );
             System.out.println("OPCION: ");
-            op = read.nextInt();
+            op = Integer.valueOf(read.readLine());
             System.out.println("");
             switch (op) {
                 case 1:
@@ -48,7 +53,7 @@ public class main {
                     r = 1;
                     do {
                         System.out.println("1-True, 2-False)");
-                        r = read.nextInt();
+                        r = Integer.valueOf(read.readLine());
                         String result = "";
                         if (r == 1) {
                             result = m.getTm().moveInSelectedTree(true);
@@ -59,11 +64,14 @@ public class main {
                         if (result.equals("No se!")) {
                             String a, q;
                             System.out.println("Digite informacion a aprender: (pregunta Enter respuesta)");
-                            q = read.next();
-                            a = read.next();
-                            m.getTm().learnInSelectedTree(q, a);
+                            q = read.readLine();
+                            a = read.readLine();
+                            System.out.println(q + "-" + a);
+                            if (!q.contains("-") && !a.contains("-")) {
+                                m.getTm().learnInSelectedTree(q, a);
+                            }
                             r = 3;
-                        }else if (result.equals("Juego terminado!")) {
+                        } else if (result.equals("Juego terminado!")) {
                             r = 3;
                         }
                     } while (r == 1 || r == 2);
@@ -73,7 +81,7 @@ public class main {
                     break;
                 case 5:
                     System.out.println("ARBOL: ");
-                    r = read.nextInt();
+                    r = Integer.valueOf(read.readLine());
                     System.out.println(m.getTm().selectTree(r));
                     break;
                 case 6:

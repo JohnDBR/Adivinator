@@ -65,8 +65,8 @@ public class Tree implements java.io.Serializable {
     }
 
     public void add(String string, int level, int position) {
-        int maxPosition = maxPosition(level);
-        String positions = allPositions(maxPosition);
+        long maxPosition = maxPosition(level);
+        //String positions = allPositions(maxPosition); //No efficiency...
         if (position < maxPosition) {
             if (!exist(string, root, false)) {
                 Node q = new Node(string);
@@ -78,19 +78,35 @@ public class Tree implements java.io.Serializable {
                     setSons(getSons() + 1);
                 } else {
                     Node p = getRoot(), antp = null;
-                    String firstHalf = "", secondHalf = "";
+                    //String firstHalf = "", secondHalf = "";
+                    long top = maxPosition, half = top / 2, back = 0L, divider;
                     int levelCounter = 0;
                     while (p != null) {
                         levelCounter++;
-                        firstHalf = positions.substring(0, positions.length() / 2);
-                        secondHalf = positions.substring(positions.length() / 2, positions.length());
+                        //firstHalf = positions.substring(0, positions.length() / 2); //No efficiency... 
+                        //secondHalf = positions.substring(positions.length() / 2, positions.length()); //No efficiency... 
                         antp = p;
-                        if (firstHalf.contains("" + position)) {
+                        //if (firstHalf.contains("" + position)) { //No efficiency... 
+                        //    p = p.getLeft();
+                        //    positions = firstHalf;  
+                        //} else {
+                        //    p = p.getRight();
+                        //    positions = secondHalf; 
+                        //}
+                        if (position < half) {
                             p = p.getLeft();
-                            positions = firstHalf;
+                            if (p != null) {
+                                divider = (half - back) / 2 + back;
+                                top = half;
+                                half = divider;
+                            }
                         } else {
                             p = p.getRight();
-                            positions = secondHalf;
+                            if (p != null) {
+                                divider = (top - half) / 2 + half;
+                                back = half;
+                                half = divider;
+                            }
                         }
                         if (levelCounter == level && p != null) {
                             p = null;
@@ -101,7 +117,7 @@ public class Tree implements java.io.Serializable {
                         q.setLevel(level);
                         q.setPosition(position);
                         setSons(getSons() + 1);
-                        if (firstHalf.contains("" + position)) {
+                        if (position < half) {
                             antp.setLeft(q);
                         } else {
                             antp.setRight(q);
@@ -182,20 +198,63 @@ public class Tree implements java.io.Serializable {
         return target;
     }
 
-    public int maxPosition(int level) {
+    public long maxPosition(int level) {
         //for (int i = 0; i < level; i++) {
         //    maxPosition = maxPosition * 2;
         //}
-        return (int) Math.pow(2, level);
+        return (long) Math.pow(2, level);
     }
 
-    public String allPositions(int maxPositions) {
+    private String allPositions(long maxPositions) { //It was a good a idea because is really accurate for small trees...
+        String balancer = "";                       //The problem is that trees with more than 14 levels has so many positions so loop takes long...
+        if (maxPositions >= 1000000000) {           //we are forcing the string and in some moment we are reaching his maximun size 2,147,483,647 characters...
+            balancer = "----------";
+        } else if (maxPositions >= 100000000) {
+            balancer = "---------";
+        } else if (maxPositions >= 10000000) {
+            balancer = "--------";
+        } else if (maxPositions >= 1000000) {
+            balancer = "-------";
+        } else if (maxPositions >= 100000) {
+            balancer = "------";
+        } else if (maxPositions >= 10000) {
+            balancer = "-----";
+        } else if (maxPositions >= 1000) {
+            balancer = "----";
+        } else if (maxPositions >= 100) {
+            balancer = "---";
+        } else if (maxPositions >= 10) {
+            balancer = "--";
+        }
+        int stage = 0;
         String positions = "";
-        for (int i = 0; i < maxPositions; i++) {
-            if (i < 10) {
-                positions = positions + i + "-";
-            } else {
-                positions = positions + i;
+        for (long l = 0L; l < maxPositions; l++) { //
+            if (!balancer.isEmpty()) {
+                if (l < 10) {
+                    stage = 1;
+                } else if (l < 100) {
+                    stage = 2;
+                } else if (l < 1000) {
+                    stage = 3;
+                } else if (l < 10000) {
+                    stage = 4;
+                } else if (l < 100000) {
+                    stage = 5;
+                } else if (l < 1000000) {
+                    stage = 6;
+                } else if (l < 10000000) {
+                    stage = 7;
+                } else if (l < 100000000) {
+                    stage = 8;
+                } else if (l < 1000000000) {
+                    stage = 9;
+                }
+            }
+            try {
+                positions = positions + balancer.substring(stage) + l;
+            } catch (Exception e) {
+                positions = positions + l;
+                System.out.println("Balancer out of bounds!...");
             }
         }
         return positions;
@@ -256,6 +315,7 @@ public class Tree implements java.io.Serializable {
                     stack.add(p);
                 } else {
                     string = "Juego Terminado!";
+                    stack.clear();
                 }
             }
 
