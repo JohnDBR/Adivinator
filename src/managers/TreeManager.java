@@ -5,6 +5,9 @@
  */
 package managers;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import structures.linkedlist.LinkedList;
 import java.util.Scanner;
 import structures.tree.Node;
@@ -19,14 +22,14 @@ public class TreeManager {
     private LinkedList<Tree> forest;
     private Tree selectedTree;
 
-    private Scanner read;
+    private BufferedReader read;
     private int sons, height;
     private LinkedList<String> levels;
 
     public TreeManager() {
         forest = new LinkedList();
 
-        read = new Scanner(System.in);
+        read = new BufferedReader(new InputStreamReader(System.in));
         sons = -1;
         height = 0;
         levels = new LinkedList<>();
@@ -298,18 +301,18 @@ public class TreeManager {
     }
 
     //CONSOLE METHODS (don't use it) these methods are only for me, if you understand it you can use it to help you
-    public void createTree() {
+    public void createTree() throws IOException {
         Tree tree = new Tree();
         String string;
         int op = 1, level = 0, position = 0;
         do {
             System.out.println("Digite info del nodo: (contenido Enter nivel Enter posicion Enter)");
-            string = read.next();
-            level = read.nextInt();
-            position = read.nextInt();
+            string = read.readLine();
+            level = Integer.valueOf(read.readLine());
+            position = Integer.valueOf(read.readLine());
             tree.add(string, level, position);
             System.out.println("Desea ingresar mas nodos 1-Si, 0-No");
-            op = read.nextInt();
+            op = Integer.valueOf(read.readLine());
         } while (op == 1);
         //height(tree.getRoot(), 0);
         //tree.setHeight(height);
@@ -322,13 +325,13 @@ public class TreeManager {
 
     } //Console method pls don't use it...
 
-    public void showTree() {
+    public void showTree() throws IOException {
         if (selectedTree != null) {
             Node root = selectedTree.getRoot();
             LinkedList<String> travel = new LinkedList<>();
             System.out.println("Mostrar Arbol por 1.pre-orden - 2.in-orden 3.post-orden - 4.nivel-orden - 5.intento grafico");
             System.out.println("OPCION: ");
-            int op = read.nextInt();
+            int op = Integer.valueOf(read.readLine());
             System.out.println("");
             switch (op) {
                 case 1:

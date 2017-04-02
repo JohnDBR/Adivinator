@@ -23,7 +23,7 @@ public class main {
     public static void main(String[] args) throws IOException {
         //System.out.println("CARGANDO ARBOL! Espera hey...");
         Master m = new Master();
-        m.getTm().selectTree(0);
+        m.getTm().selectTree(2);
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         int op, r;
 
