@@ -124,7 +124,7 @@ public class UserManager {
         //}
     }
 
-    private User getSelectedUser() {
+    public User getSelectedUser() {
         for (int i = 0; i < users.size(); i++) {
             if (users.get(i).equals(selectedUser)) {
                 return users.get(i);
