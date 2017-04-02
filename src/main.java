@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 import managers.Master;
 import structures.tree.Tree;
+import view.Log_in_Frame;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -36,7 +37,7 @@ public class main {
                     + " 3. Recorrer Arbol mediante booleanos\n"
                     + " 4. Guardar Arbol\n"
                     + " 5. Seleccionar Arbol\n"
-                    + " 6. \n"
+                    + " 6. Ejecutar programa con vistas\n"
                     + " 0. Salir"
             );
             System.out.println("OPCION: ");
@@ -86,7 +87,7 @@ public class main {
                     System.out.println(m.getTm().selectTree(r));
                     break;
                 case 6:
-
+                    new Log_in_Frame();
                     break;
                 case 7:
 

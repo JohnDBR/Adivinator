@@ -95,7 +95,6 @@ public class Main_menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        m.getTm().selectTree("Identificador");
         new in_game_base(m);
         this.dispose();
     }//GEN-LAST:event_button1ActionPerformed

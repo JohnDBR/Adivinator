@@ -12,10 +12,11 @@ public class in_game_base extends javax.swing.JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.m = m;
+        this.m.getTm().selectTree("Identificador");
         update();
     }
     
-    private void update(){
+    public void update(){
         String s = m.getTm().getInSelectedTree();
         if(s.equals("No se!")){
             this.setVisible(false);
@@ -23,6 +24,24 @@ public class in_game_base extends javax.swing.JFrame {
         }else if(s.equals("Juego terminado!")){
             new end_game(m);
             this.dispose();
+        }else if(s.equals("Mamiferos")){
+            m.getTm().selectTree("Mamiferos");
+            update();
+        }else if(s.equals("Reptiles")){
+            m.getTm().selectTree("Reptiles");
+            update();
+        }else if(s.equals("Aves")){
+            m.getTm().selectTree("Aves");
+            update();
+        }else if(s.equals("Anfibios y Peces")){
+            m.getTm().selectTree("Anfibios y Peces");
+            update();
+        }else if(s.equals("Invertebrados")){
+            m.getTm().selectTree("Invertebrados");
+            update();
+        }else if(s.equals("Insectos")){
+            m.getTm().selectTree("Insectos");
+            update();
         }else{
             jEditorPane1.setText(s);
         }

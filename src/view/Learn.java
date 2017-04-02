@@ -73,6 +73,7 @@ public class Learn extends javax.swing.JFrame {
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
         m.getTm().learnInSelectedTree(jTextField1.getText(), jTextField2.getText());
         g.setVisible(true);
+        g.update();
         this.dispose();
     }//GEN-LAST:event_button3ActionPerformed
 
