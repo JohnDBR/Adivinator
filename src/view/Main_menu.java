@@ -28,7 +28,7 @@ public class Main_menu extends javax.swing.JFrame {
         button3 = new java.awt.Button();
         user_label = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(630, 680));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -74,6 +74,11 @@ public class Main_menu extends javax.swing.JFrame {
         button3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button3.setForeground(new java.awt.Color(255, 255, 255));
         button3.setLabel("Quit");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
         jPanel3.add(button3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 390, 80));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 560, 360, 60));
@@ -90,9 +95,15 @@ public class Main_menu extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        m.getTm().selectTree("Identificador");
         new in_game_base(m);
         this.dispose();
     }//GEN-LAST:event_button1ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        m.close();
+        this.dispose();
+    }//GEN-LAST:event_button3ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

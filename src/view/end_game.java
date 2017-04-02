@@ -1,14 +1,18 @@
 package view;
 
 import javax.swing.JOptionPane;
+import managers.Master;
 
 public class end_game extends javax.swing.JFrame {
 
-    public end_game() {
+    Master m;
+    public end_game(Master m) {
         initComponents();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.m = m;
+        user_label1.setText(m.getUm().getSelectedUser().getName());
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -23,7 +27,7 @@ public class end_game extends javax.swing.JFrame {
         user_label2 = new javax.swing.JLabel();
         user_label3 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(630, 680));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -42,6 +46,11 @@ public class end_game extends javax.swing.JFrame {
         button3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button3.setForeground(new java.awt.Color(255, 255, 255));
         button3.setLabel("Menu");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
         jPanel3.add(button3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 390, 80));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 560, 360, 60));
@@ -74,6 +83,11 @@ public class end_game extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        new Main_menu(m);
+        this.dispose();
+    }//GEN-LAST:event_button3ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

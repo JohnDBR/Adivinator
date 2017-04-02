@@ -12,10 +12,20 @@ public class in_game_base extends javax.swing.JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.m = m;
+        update();
     }
     
     private void update(){
-        
+        String s = m.getTm().getInSelectedTree();
+        if(s.equals("No se!")){
+            this.setVisible(false);
+            new Main_menu(m);
+        }else if(s.equals("Juego terminado!")){
+            new end_game(m);
+            this.dispose();
+        }else{
+            jEditorPane1.setText(s);
+        }
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -36,7 +46,7 @@ public class in_game_base extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         button3 = new java.awt.Button();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(630, 680));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -52,6 +62,11 @@ public class in_game_base extends javax.swing.JFrame {
         button1.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button1.setForeground(new java.awt.Color(255, 255, 255));
         button1.setLabel("Si");
+        button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button1ActionPerformed(evt);
+            }
+        });
         jPanel4.add(button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -10, 630, 80));
 
         jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 550, 60));
@@ -63,6 +78,11 @@ public class in_game_base extends javax.swing.JFrame {
         button2.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button2.setForeground(new java.awt.Color(255, 255, 255));
         button2.setLabel("No");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(button2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -10, 630, 80));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 380, 550, 60));
@@ -73,6 +93,11 @@ public class in_game_base extends javax.swing.JFrame {
         button5.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button5.setForeground(new java.awt.Color(255, 255, 255));
         button5.setLabel("Posiblemente no");
+        button5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button5ActionPerformed(evt);
+            }
+        });
         jPanel5.add(button5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -10, 630, 80));
 
         jPanel1.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 520, 550, 60));
@@ -83,6 +108,11 @@ public class in_game_base extends javax.swing.JFrame {
         button4.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button4.setForeground(new java.awt.Color(255, 255, 255));
         button4.setLabel("Posiblemente si");
+        button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button4ActionPerformed(evt);
+            }
+        });
         jPanel6.add(button4, new org.netbeans.lib.awtextra.AbsoluteConstraints(-40, -10, 630, 80));
 
         jPanel1.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, 550, 60));
@@ -109,6 +139,11 @@ public class in_game_base extends javax.swing.JFrame {
         button3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button3.setForeground(new java.awt.Color(255, 255, 255));
         button3.setLabel("Irelevante");
+        button3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button3ActionPerformed(evt);
+            }
+        });
         jPanel3.add(button3, new org.netbeans.lib.awtextra.AbsoluteConstraints(-4, -11, 560, 80));
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 590, 550, 60));
@@ -117,6 +152,31 @@ public class in_game_base extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
+        m.getTm().moveInSelectedTree(true);
+        update();
+    }//GEN-LAST:event_button1ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        m.getTm().moveInSelectedTree(false);
+        update();
+    }//GEN-LAST:event_button2ActionPerformed
+
+    private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
+        m.getTm().doubtMoveInSelectedTree("Probablemente Si");
+        update();
+    }//GEN-LAST:event_button4ActionPerformed
+
+    private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
+        m.getTm().doubtMoveInSelectedTree("Probablemente No");
+        update();
+    }//GEN-LAST:event_button5ActionPerformed
+
+    private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
+        m.getTm().doubtMoveInSelectedTree("Irrelevante");
+        update();
+    }//GEN-LAST:event_button3ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
