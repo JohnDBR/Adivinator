@@ -13,6 +13,9 @@ public class in_game_base extends javax.swing.JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        button3.setVisible(false);
+        button4.setVisible(false);
+        button5.setVisible(false);
         this.sw = 0;
         this.m = m;
         this.m.getTm().selectTree("Identificador");
@@ -37,6 +40,9 @@ public class in_game_base extends javax.swing.JFrame {
         }else if(s.equals("Mamiferos") || s.equals("Reptiles") || s.equals("Aves") || s.equals("Anfibios y Peces") || s.equals("Invertebrados") || s.equals("Insectos")){
             sw = 1;
             jEditorPane1.setText(m.getTm().getInSelectedTree());
+            button3.setVisible(true);
+            button4.setVisible(true);
+            button5.setVisible(true);
         }else{
             jEditorPane1.setText(m.getTm().getInSelectedTree());
         }

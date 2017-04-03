@@ -17,6 +17,12 @@ public class end_game extends javax.swing.JFrame {
         user_label2.setText(m.getPoints() + "");
         m.getUm().scoreToSelectedUser(m.getPoints());
         user_label.setText(m.getTime());
+        set_Score();
+    }
+    
+    private void set_Score(){
+        if(m.getPoints() <= 15) user_label4.setText("Perdiste");
+        else user_label4.setText("Ganaste");
     }
 
     @SuppressWarnings("unchecked")
@@ -31,6 +37,7 @@ public class end_game extends javax.swing.JFrame {
         user_label1 = new javax.swing.JLabel();
         user_label2 = new javax.swing.JLabel();
         user_label3 = new javax.swing.JLabel();
+        user_label4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(630, 680));
@@ -42,7 +49,7 @@ public class end_game extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Resources/Adivinator-09.png"))); // NOI18N
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
         jPanel3.setBackground(new java.awt.Color(27, 132, 187));
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -84,6 +91,12 @@ public class end_game extends javax.swing.JFrame {
         user_label3.setText("Score");
         jPanel1.add(user_label3, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 240, 360, -1));
 
+        user_label4.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
+        user_label4.setForeground(new java.awt.Color(102, 102, 102));
+        user_label4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        user_label4.setText("99999");
+        jPanel1.add(user_label4, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 180, 360, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 680));
 
         pack();
@@ -104,5 +117,6 @@ public class end_game extends javax.swing.JFrame {
     private javax.swing.JLabel user_label1;
     private javax.swing.JLabel user_label2;
     private javax.swing.JLabel user_label3;
+    private javax.swing.JLabel user_label4;
     // End of variables declaration//GEN-END:variables
 }
