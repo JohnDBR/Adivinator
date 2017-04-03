@@ -1,4 +1,3 @@
 # Adivinator
 
-Juan Felipe Arellano
-John Barbosa
+Juan Felipe Arellano - John Barbosa
