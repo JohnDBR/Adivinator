@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JOptionPane;
 import managers.Master;
+import models.User;
 
 public class Log_in_Frame extends javax.swing.JFrame {
 
@@ -11,7 +12,7 @@ public class Log_in_Frame extends javax.swing.JFrame {
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
-        Master m = new Master();
+        this.m = new Master();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -86,7 +87,9 @@ public class Log_in_Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        if(m.getUm().get(jTextField1.getText()) != null){
+        System.out.println(jTextField1.getText());
+        User u = m.getUm().get(jTextField1.getText());
+        if(u != null){
             m.getUm().selectUser(jTextField1.getText());
         }else{
             m.getUm().createUser(jTextField1.getText());

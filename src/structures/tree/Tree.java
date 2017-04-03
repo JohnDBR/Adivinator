@@ -315,7 +315,7 @@ public class Tree implements java.io.Serializable {
                     stack.add(p);
                 } else {
                     string = "Juego Terminado!";
-                    clearStack();
+                    clearRoute();
                 }
             }
 
@@ -336,7 +336,7 @@ public class Tree implements java.io.Serializable {
 
             p.setLeft(qstn);
             height(root, 0);
-            clearStack();
+            clearRoute();
         }
     }
 
@@ -406,7 +406,7 @@ public class Tree implements java.io.Serializable {
         }
     }
 
-    private void clearStack() {
+    public void clearRoute() {
         stack.clear();
         stack.add(root);
     }

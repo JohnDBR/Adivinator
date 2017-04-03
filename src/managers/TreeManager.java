@@ -182,6 +182,12 @@ public class TreeManager {
             selectedTree.save();
         }
     }
+    
+    public void clearRouteInSelectedTree(){
+        try{
+            selectedTree.clearRoute();
+        }catch(Exception e){}
+    }
 
     public void updateTree(String oldName, String newName) {
         Tree tree;

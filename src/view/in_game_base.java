@@ -6,44 +6,40 @@ import managers.Master;
 public class in_game_base extends javax.swing.JFrame {
 
     Master m;
+    String s;
+    int sw;
     public in_game_base(Master m) {
         initComponents();
         this.setResizable(false);
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.sw = 0;
         this.m = m;
         this.m.getTm().selectTree("Identificador");
+        s = m.getTm().getInSelectedTree();
         update();
     }
     
     public void update(){
-        String s = m.getTm().getInSelectedTree();
         if(s.equals("No se!")){
-            this.setVisible(false);
-            new Main_menu(m);
-        }else if(s.equals("Juego terminado!")){
+            if(sw == 1){
+                this.setVisible(false);
+                new Learn(m, this);
+            }else{
+                JOptionPane.showMessageDialog(null, "Su animal no existe ya recorrio todas las categorias de animales.");
+                new Main_menu(m);
+                this.dispose();
+            }
+        }else if(s.equals("Juego Terminado!")){
             new end_game(m);
             this.dispose();
-        }else if(s.equals("Mamiferos")){
-            m.getTm().selectTree("Mamiferos");
-            update();
-        }else if(s.equals("Reptiles")){
-            m.getTm().selectTree("Reptiles");
-            update();
-        }else if(s.equals("Aves")){
-            m.getTm().selectTree("Aves");
-            update();
-        }else if(s.equals("Anfibios y Peces")){
-            m.getTm().selectTree("Anfibios y Peces");
-            update();
-        }else if(s.equals("Invertebrados")){
-            m.getTm().selectTree("Invertebrados");
-            update();
-        }else if(s.equals("Insectos")){
-            m.getTm().selectTree("Insectos");
-            update();
+        }else if(s.equals("Mamiferos") || s.equals("Reptiles") || s.equals("Aves") || s.equals("Anfibios y Peces") || s.equals("Invertebrados") || s.equals("Insectos")){
+            sw = 1;
+            m.getTm().clearRouteInSelectedTree();
+            m.getTm().selectTree(s);
+            jEditorPane1.setText(m.getTm().getInSelectedTree());
         }else{
-            jEditorPane1.setText(s);
+            jEditorPane1.setText(m.getTm().getInSelectedTree());
         }
     }
     @SuppressWarnings("unchecked")
@@ -173,27 +169,27 @@ public class in_game_base extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
-        m.getTm().moveInSelectedTree(true);
+        s = m.getTm().moveInSelectedTree(true);
         update();
     }//GEN-LAST:event_button1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        m.getTm().moveInSelectedTree(false);
+        s = m.getTm().moveInSelectedTree(false);
         update();
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
-        m.getTm().doubtMoveInSelectedTree("Probablemente Si");
+        s = m.getTm().doubtMoveInSelectedTree("Probablemente Si");
         update();
     }//GEN-LAST:event_button4ActionPerformed
 
     private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
-        m.getTm().doubtMoveInSelectedTree("Probablemente No");
+        s = m.getTm().doubtMoveInSelectedTree("Probablemente No");
         update();
     }//GEN-LAST:event_button5ActionPerformed
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        m.getTm().doubtMoveInSelectedTree("Irrelevante");
+        s = m.getTm().doubtMoveInSelectedTree("Irrelevante");
         update();
     }//GEN-LAST:event_button3ActionPerformed
 

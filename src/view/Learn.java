@@ -43,7 +43,7 @@ public class Learn extends javax.swing.JFrame {
         button3.setBackground(new java.awt.Color(27, 117, 187));
         button3.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button3.setForeground(new java.awt.Color(255, 255, 255));
-        button3.setLabel("Irelevante");
+        button3.setLabel("Aprender");
         button3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 button3ActionPerformed(evt);
@@ -71,10 +71,11 @@ public class Learn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        m.getTm().learnInSelectedTree(jTextField1.getText(), jTextField2.getText());
-        g.setVisible(true);
-        g.update();
-        this.dispose();
+        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("")){
+            m.getTm().learnInSelectedTree(jTextField1.getText(), jTextField2.getText());
+            g.setVisible(true);
+            this.dispose();
+        }else JOptionPane.showMessageDialog(null, "Digita la informacion requerida, uno de tus campos esta vacio");
     }//GEN-LAST:event_button3ActionPerformed
 
     
