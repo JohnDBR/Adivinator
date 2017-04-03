@@ -318,7 +318,6 @@ public class Tree implements java.io.Serializable {
                     clearRoute();
                 }
             }
-
         }
         return string;
     }
@@ -357,7 +356,20 @@ public class Tree implements java.io.Serializable {
                         string = run(false);
                         break;
                     case "Irrelevante":
-                        //Should be discussed
+                        doubt.pollLast();
+                        if (!doubt.isEmpty()) {
+                            Node q = doubt.getLast();
+                            doubt.pollLast();
+                            if (stack.contains(q.getLeft())) {
+                                stack.add(q.getRight());
+                                string = q.getRight().getString();
+                            } else {
+                                stack.add(q.getLeft());
+                                string = q.getLeft().getString();
+                            }
+                        } else {
+                            string = run(false);
+                        }
                         break;
                     case "No se":
                         //Should be discussed

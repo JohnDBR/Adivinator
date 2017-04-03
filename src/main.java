@@ -22,12 +22,12 @@ public class main {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws IOException {
+        //Este main es de desarrollo esta preprogramado para iniciar automaticamente la version de usuario.
         //System.out.println("CARGANDO ARBOL! Espera hey...");
         Master m = new Master();
-        m.getTm().selectTree(6);
+        m.getTm().selectTree(0);
         BufferedReader read = new BufferedReader(new InputStreamReader(System.in));
         int op, r;
-
         do {
             System.out.println(
                     "NOTA: el valor -1 en mi laboratorio es nulo, vacio\n\n"
@@ -41,7 +41,8 @@ public class main {
                     + " 0. Salir"
             );
             System.out.println("OPCION: ");
-            op = Integer.valueOf(read.readLine());
+            //op = Integer.valueOf(read.readLine());
+            op = 6;
             System.out.println("");
             switch (op) {
                 case 1:
@@ -88,6 +89,7 @@ public class main {
                     break;
                 case 6:
                     new Log_in_Frame();
+                    op = 0;
                     break;
                 case 7:
 

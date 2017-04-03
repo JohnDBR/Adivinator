@@ -63,6 +63,11 @@ public class Main_menu extends javax.swing.JFrame {
         button2.setFont(new java.awt.Font("Trebuchet MS", 0, 24)); // NOI18N
         button2.setForeground(new java.awt.Color(255, 255, 255));
         button2.setLabel("High Scores");
+        button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button2ActionPerformed(evt);
+            }
+        });
         jPanel2.add(button2, new org.netbeans.lib.awtextra.AbsoluteConstraints(-9, -5, 390, 70));
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 430, 360, 60));
@@ -103,6 +108,11 @@ public class Main_menu extends javax.swing.JFrame {
         m.close();
         this.dispose();
     }//GEN-LAST:event_button3ActionPerformed
+
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        new top_5(m);
+        this.dispose();
+    }//GEN-LAST:event_button2ActionPerformed
 
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

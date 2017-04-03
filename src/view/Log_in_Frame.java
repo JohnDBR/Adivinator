@@ -7,6 +7,7 @@ import models.User;
 public class Log_in_Frame extends javax.swing.JFrame {
 
     Master m;
+
     public Log_in_Frame() {
         initComponents();
         this.setResizable(false);
@@ -14,6 +15,7 @@ public class Log_in_Frame extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.m = new Master();
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,23 +85,26 @@ public class Log_in_Frame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        jTextField1.setText("");
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        System.out.println(jTextField1.getText());
-        User u = m.getUm().get(jTextField1.getText());
-        if(u != null){
-            m.getUm().selectUser(jTextField1.getText());
-        }else{
-            m.getUm().createUser(jTextField1.getText());
-            m.getUm().selectUser(jTextField1.getText());
+        String s = jTextField1.getText();
+        if (s.length() <= 7 && !s.matches("^.*[^a-zA-Z0-9 ].*$")) {
+            if (m.getUm().get(jTextField1.getText()) != null) {
+                m.getUm().selectUser(jTextField1.getText());
+            } else {
+                m.getUm().createUser(jTextField1.getText());
+                m.getUm().selectUser(jTextField1.getText());
+            }
+            new Main_menu(m);
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario no valido");
         }
-        new Main_menu(m);
-        this.dispose();
     }//GEN-LAST:event_button2ActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button2;
     private javax.swing.JLabel jLabel2;

@@ -16,6 +16,7 @@ public class in_game_base extends javax.swing.JFrame {
         this.sw = 0;
         this.m = m;
         this.m.getTm().selectTree("Identificador");
+        this.m.newGame();
         s = m.getTm().getInSelectedTree();
         update();
     }
@@ -35,13 +36,16 @@ public class in_game_base extends javax.swing.JFrame {
             this.dispose();
         }else if(s.equals("Mamiferos") || s.equals("Reptiles") || s.equals("Aves") || s.equals("Anfibios y Peces") || s.equals("Invertebrados") || s.equals("Insectos")){
             sw = 1;
-            m.getTm().clearRouteInSelectedTree();
-            m.getTm().selectTree(s);
             jEditorPane1.setText(m.getTm().getInSelectedTree());
         }else{
             jEditorPane1.setText(m.getTm().getInSelectedTree());
         }
     }
+    
+    public javax.swing.JEditorPane getPane(){
+        return jEditorPane1;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,26 +175,31 @@ public class in_game_base extends javax.swing.JFrame {
     private void button1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button1ActionPerformed
         s = m.getTm().moveInSelectedTree(true);
         update();
+        m.addPoint();
     }//GEN-LAST:event_button1ActionPerformed
 
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
         s = m.getTm().moveInSelectedTree(false);
         update();
+        m.addPoint();
     }//GEN-LAST:event_button2ActionPerformed
 
     private void button4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button4ActionPerformed
         s = m.getTm().doubtMoveInSelectedTree("Probablemente Si");
         update();
+        m.addPoint();
     }//GEN-LAST:event_button4ActionPerformed
 
     private void button5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button5ActionPerformed
         s = m.getTm().doubtMoveInSelectedTree("Probablemente No");
         update();
+        m.addPoint();
     }//GEN-LAST:event_button5ActionPerformed
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
         s = m.getTm().doubtMoveInSelectedTree("Irrelevante");
         update();
+        m.addPoint();
     }//GEN-LAST:event_button3ActionPerformed
 
     

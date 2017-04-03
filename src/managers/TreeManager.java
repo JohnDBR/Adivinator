@@ -151,7 +151,12 @@ public class TreeManager {
 
     public String moveInSelectedTree(boolean direction) {
         if (selectedTree != null) {
-            return getSelectedTree().run(direction);
+            String string = getSelectedTree().run(direction);
+            if (string.equals("Mamiferos") || string.equals("Reptiles") || string.equals("Aves") || string.equals("Anfibios y Peces") || string.equals("Invertebrados") || string.equals("Insectos")) {
+                clearRouteInSelectedTree();
+                selectTree(string);
+            }
+            return string;
         }
         return null;
     }
@@ -182,11 +187,12 @@ public class TreeManager {
             selectedTree.save();
         }
     }
-    
-    public void clearRouteInSelectedTree(){
-        try{
+
+    public void clearRouteInSelectedTree() {
+        try {
             selectedTree.clearRoute();
-        }catch(Exception e){}
+        } catch (Exception e) {
+        }
     }
 
     public void updateTree(String oldName, String newName) {

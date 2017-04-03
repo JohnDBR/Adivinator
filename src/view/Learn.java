@@ -71,9 +71,10 @@ public class Learn extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void button3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button3ActionPerformed
-        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("")){
+        if(!jTextField1.getText().equals("") && !jTextField2.getText().equals("") && !jTextField1.getText().equals("Digite una pregunta que diferencia su animal") && !jTextField2.getText().equals("Digite su animal")){
             m.getTm().learnInSelectedTree(jTextField1.getText(), jTextField2.getText());
             g.setVisible(true);
+            g.getPane().setText(m.getTm().getInSelectedTree());
             this.dispose();
         }else JOptionPane.showMessageDialog(null, "Digita la informacion requerida, uno de tus campos esta vacio");
     }//GEN-LAST:event_button3ActionPerformed

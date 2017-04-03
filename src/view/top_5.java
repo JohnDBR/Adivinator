@@ -20,16 +20,26 @@ public class top_5 extends javax.swing.JFrame {
     }
     
     private void update(){
+        try{
         user_1.setText(l.get(0).getName());
         score_1.setText("" + l.get(0).getTopScore());
+        }catch(Exception e){}
+        try{
         user_2.setText(l.get(1).getName());
         score_2.setText("" + l.get(1).getTopScore());
+        }catch(Exception e){}
+        try{
         user_3.setText(l.get(2).getName());
         score_3.setText("" + l.get(2).getTopScore());
+        }catch(Exception e){}
+        try{
         user_4.setText(l.get(3).getName());
         score_4.setText("" + l.get(3).getTopScore());
+        }catch(Exception e){}
+        try{
         user_5.setText(l.get(4).getName());
         score_5.setText("" + l.get(4).getTopScore());
+        }catch(Exception e){}
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -81,61 +91,51 @@ public class top_5 extends javax.swing.JFrame {
         score_1.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         score_1.setForeground(new java.awt.Color(102, 102, 102));
         score_1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score_1.setText("1");
         jPanel1.add(score_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 230, 100, -1));
 
         user_1.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         user_1.setForeground(new java.awt.Color(27, 117, 187));
-        user_1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_1.setText("user1");
+        user_1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(user_1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 230, 330, -1));
 
         score_2.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         score_2.setForeground(new java.awt.Color(102, 102, 102));
         score_2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score_2.setText("2");
         jPanel1.add(score_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 300, 100, -1));
 
         user_2.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         user_2.setForeground(new java.awt.Color(27, 117, 187));
-        user_2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_2.setText("user2");
+        user_2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(user_2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 300, 330, -1));
 
         score_3.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         score_3.setForeground(new java.awt.Color(102, 102, 102));
         score_3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score_3.setText("3");
         jPanel1.add(score_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 360, 100, -1));
 
         user_3.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         user_3.setForeground(new java.awt.Color(27, 117, 187));
-        user_3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_3.setText("user3");
+        user_3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(user_3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 330, -1));
 
         score_4.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         score_4.setForeground(new java.awt.Color(102, 102, 102));
         score_4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score_4.setText("4");
         jPanel1.add(score_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 420, 100, -1));
 
         user_4.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         user_4.setForeground(new java.awt.Color(27, 117, 187));
-        user_4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_4.setText("user4");
+        user_4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(user_4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 420, 330, -1));
 
         score_5.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         score_5.setForeground(new java.awt.Color(102, 102, 102));
         score_5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        score_5.setText("5");
         jPanel1.add(score_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 480, 100, -1));
 
         user_5.setFont(new java.awt.Font("Trebuchet MS", 1, 56)); // NOI18N
         user_5.setForeground(new java.awt.Color(27, 117, 187));
-        user_5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        user_5.setText("user5");
+        user_5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jPanel1.add(user_5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 480, 330, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 630, 680));

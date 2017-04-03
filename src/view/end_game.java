@@ -6,6 +6,7 @@ import managers.Master;
 public class end_game extends javax.swing.JFrame {
 
     Master m;
+
     public end_game(Master m) {
         initComponents();
         this.setResizable(false);
@@ -13,7 +14,11 @@ public class end_game extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.m = m;
         user_label1.setText(m.getUm().getSelectedUser().getName());
+        user_label2.setText(m.getPoints() + "");
+        m.getUm().scoreToSelectedUser(m.getPoints());
+        user_label.setText(m.getTime());
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -89,7 +94,7 @@ public class end_game extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_button3ActionPerformed
 
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private java.awt.Button button3;
     private javax.swing.JLabel jLabel2;
