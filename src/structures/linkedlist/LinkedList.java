@@ -5,6 +5,8 @@
  */
 package structures.linkedlist;
 
+import com.sun.javafx.scene.NodeHelper;
+
 /**
  *
  * @author John
@@ -88,6 +90,25 @@ public class LinkedList<T> {
         return null;
     }
 
+    public void setNode(int position, T info) {
+        if (position < size) {
+            Node<T> p = ptr;
+            if (position == 0) {
+                ptr.setInfo(info);
+            } else if (position == size - 1) {
+                last.setInfo(info);
+            } else {
+                for (int i = 0; i < size; i++) {
+                    if (i == position) {
+                        p.setInfo(info);
+                        break;
+                    }
+                    p = p.getLink();
+                }
+            }
+        }
+    }
+
     public T get(int position) {
         try {
             return getNode(position).getInfo();
@@ -154,23 +175,29 @@ public class LinkedList<T> {
     }
 
     public void changePosition(int positionA, int positionB) {
-        if (size > 1 && 0 < positionA && positionA < positionB && positionB < size) {
-            Node<T> a = getNode(positionA), b = getNode(positionB);
-            Node<T> antA = getNode(positionA - 1), antB = getNode(positionB - 1);
-            Node<T> aLink = a.getLink(), bLink = b.getLink();
-            if (antA != null) {
-                antA.setLink(b);
-            } else {
-                ptr = b;
-            }
-            b.setLink(aLink);
-            antB.setLink(a);
-            if (bLink != null) {
-                a.setLink(bLink);
-            } else {
-                a.setLink(null);
-                last = a;
-            }
+        if (size > 1 && 0 <= positionA && positionA < positionB && positionB < size) { //This is a good method but in java it doesn't work
+            //    Node<T> a = getNode(positionA), b = getNode(positionB); //Those node objects are just representations not the real ones
+            //    Node<T> antA = getNode(positionA - 1), antB = getNode(positionB - 1); //we arent doing the changes in the list  
+            //    Node<T> aLink = a.getLink(), bLink = b.getLink();
+            //    if (antA != null) {
+            //       antA.setLink(b);
+            //    } else {
+            //        ptr = b;
+            //    }
+            //    b.setLink(aLink);
+            //    antB.setLink(a);
+            //    if (bLink != null) {
+            //        a.setLink(bLink);
+            //    } else {
+            //        a.setLink(null);
+            //        last = a;
+            //    }
+
+            //Ugly method... god forgive me pls...
+            System.out.println("Am I in?");
+            T copy = getNode(positionA).getInfo();
+            setNode(positionA, (T) getNode(positionB).getInfo());
+            setNode(positionB, copy);
         }
     }
 

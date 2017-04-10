@@ -36,29 +36,51 @@ public class UserManager {
         sortUsers(0, users.size() - 1);
     }
 
-    private void sortUsers(int left, int right) { //Need testing...
-        User pivot = users.get(left); //we took the first element as pivot
-        int i = left;  //i searches from left to right
-        int j = right; //j searches from right to left
-
-        while (i < j) {            //while the searches do not cross
-            while (users.get(i).getTopScore() <= pivot.getTopScore() && i < j) {
-                i++; //search the element greater than pivot
+    private void sortUsers(int left, int right) {
+        if (left >= 0 && right < users.size() && left < right) { //we validate true positions
+            int pivot = users.get(left).getTopScore(), i = left, j = right; //we took the first element as pivot
+            boolean leftToRight = false; //i searches from left to right... we know what direction we are searching because of the boolean
+            boolean change = false;      //j searches from right to left... we know that we must make change in two positions because of the boolean
+            while (i < j) {                     //while the searches do not cross
+                while (!change && i < j) {
+                    if (!leftToRight) {
+                        if (users.get(j).getTopScore() <= pivot) {
+                            j--; //search the element greater than pivot                        
+                        } else {
+                            change = true;
+                        }
+                    } else if (users.get(i).getTopScore() >= pivot) {
+                        i++; //search the element smaller than pivot
+                    } else {
+                        change = true;
+                    }
+                }
+                if (i < j) { //if they have not been crossed, it exchange //or if(change)
+                    //showList();
+                    users.changePosition(i, j);
+                    //showList();
+                    if (!leftToRight) {
+                        pivot = users.get(j).getTopScore();
+                    } else if (leftToRight) {
+                        pivot = users.get(i).getTopScore();
+                    }
+                    leftToRight = !leftToRight;
+                    change = false;
+                }
             }
-            while (users.get(j).getTopScore() > pivot.getTopScore()) {
-                j--; //search the element smaller than pivot
-            }
-            if (i < j) { //if they have not been crossed, it exchange
-                users.changePosition(i, j);
-            }
-        }
-        users.set(left, users.get(j)); //The pivot is putted in its place so we have
-        users.set(j, pivot); //the minors to the left and the majors to the right
-        if (left < j - 1) {
             sortUsers(left, j - 1); // we order the left subLinkedList 
-        }
-        if (j + 1 < right) {
             sortUsers(j + 1, right); // we order the right subLinkedList
+        }
+    }
+
+    private void showList() {
+        System.out.println("");
+        for (int i = 0; i < users.size(); i++) {
+            System.out.print(users.get(i).getTopScore() + "   ");
+        }
+        System.out.println("");
+        for (int i = 0; i < users.size(); i++) {
+            System.out.print(i + " | ");
         }
     }
 
